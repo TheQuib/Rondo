@@ -1,0 +1,9 @@
+api_url: "https://api.example.com"
+headers:
+  accept: "application/json"
+  content-type: "application/json"
+  x-api-key: "your-api-key"
+
+payload:
+  door_id: "your-door-id"
+  unlocked_by: "your-identifier"

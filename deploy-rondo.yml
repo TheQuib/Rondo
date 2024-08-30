@@ -1,0 +1,89 @@
+---
+- name: Deploy Rondo
+  hosts: raspberry_pis
+  become: yes
+  become_user: root
+
+  tasks:
+    # Install Docker and its dependencies
+    - name: Update and upgrade apt packages
+      apt:
+        update_cache: yes
+        upgrade: yes
+
+    - name: Install required packages
+      apt:
+        state: latest
+        update_cache: true
+        name:
+          - ca-certificates
+          - curl
+          - gnupg2
+          - apt-transport-https
+          - software-properties-common
+          - python3-docker
+
+    - name: Add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/debian/gpg
+        state: present
+
+    - name: Add Docker repository
+      apt_repository:
+        repo: deb [arch=arm64] https://download.docker.com/linux/debian bookworm stable
+        state: present
+
+    - name: Install Docker Packages
+      apt:
+        state: latest
+        update_cache: true
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+
+    - name: Start Docker service
+      service:
+        name: docker
+        state: started
+
+    # Create project directory
+    - name: Create directory for Rondo
+      file:
+        path: /home/pi/rondo
+        state: directory
+        owner: pi
+        group: pi
+        mode: '0755'
+
+    # Copy docker-compose.yml to the project directory
+    - name: Copy docker-compose.yml to the Rondo base directory
+      template:
+        src: rondo/docker-compose-template.j2
+        dest: /home/pi/rondo/docker-compose.yml
+        owner: pi
+        group: pi
+        mode: '0644'
+
+    # Generate config.yaml using template
+    - name: Generate config.yaml from template
+      template:
+        src: rondo/config-template.yaml.j2
+        dest: /home/pi/rondo/config.yaml
+        owner: pi
+        group: pi
+        mode: '0644'
+
+    # Run and check the container
+    - name: Pull and run the Docker container using Docker Compose
+      command: docker-compose up -d
+      args:
+        chdir: /home/pi/rondo/
+
+    - name: Ensure Rondo container is running
+      docker_container:
+        name: rondo
+        state: started
+        restart_policy: always

@@ -1,0 +1,20 @@
+# You can find usage in the README.md file.
+
+
+notes:
+  hosts:
+    pi1:
+      ansible_host: 192.168.1.101
+      ansible_user: pi
+      DOOR_ID: e3a1d7f9-6b3c-4f59-b813-1a728a214d89
+      USER_ID: pi1_user
+    pi2:
+      ansible_host: 192.168.1.102
+      ansible_user: pi
+      DOOR_ID: e3a1d7f9-6b3c-4f59-b813-1a728a214d89
+      USER_ID: pi2_user
+    pi3:
+      ansible_host: 192.168.1.103
+      ansible_user: pi
+      DOOR_ID: 7c5e8a92-2b41-4de6-8a3f-4d182bb5f2e9
+      USER_ID: pi3_user
