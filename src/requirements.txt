@@ -1,4 +1,3 @@
 gpiozero
-rpi.gpio
 requests
 pyyaml
