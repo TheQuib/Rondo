@@ -4,3 +4,6 @@ services:
     container_name: rondo
     volumes:
       - ./config.yaml:/home/pi/rondo/config.yaml
+    devices:
+      - "/dev/gpiomem:/dev/gpiomem"
+    privileged: true
