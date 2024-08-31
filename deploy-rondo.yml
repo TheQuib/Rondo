@@ -60,12 +60,9 @@
 
     # Copy docker-compose.yml to the project directory
     - name: Copy docker-compose.yml to the Rondo base directory
-      template:
-        src: rondo/docker-compose-template.j2
+      copy:
+        src: ./docker-compose.yml
         dest: /home/pi/rondo/docker-compose.yml
-        owner: pi
-        group: pi
-        mode: '0644'
 
     # Generate config.yaml using template
     - name: Generate config.yaml from template
