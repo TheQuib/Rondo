@@ -1,4 +1,4 @@
 gpiozero
-RPi.GPIO
+rpi.gpio
 requests
 pyyaml
