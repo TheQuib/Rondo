@@ -1,6 +1,6 @@
 ---
 - name: Deploy Rondo
-  hosts: notes
+  hosts: '*'
   become: yes
   become_user: root
 
