@@ -7,7 +7,9 @@
   tasks:
     - name: Install fbi
       apt:
-        name: fbi
+        name:
+          - fbi
+          - xbindkeys
         state: present
         update_cache: yes
 
@@ -37,39 +39,6 @@
         group: pi
         mode: '0755'
 
-    - name: Create systemd service for running fbi at startup
-      copy:
-        dest: /etc/systemd/system/lockdown_fbi.service
-        content: |
-          [Unit]
-          Description=Run FBI at startup to display lockdown image
-          After=network.target
-
-          [Service]
-          ExecStart=/home/pi/lockdown/run_fbi.sh
-          User=pi
-          Group=pi
-          Restart=always
-
-          [Install]
-          WantedBy=multi-user.target
-        mode: '0644'
-
-    - name: Reload systemd to apply the new service
-      systemd:
-        daemon_reload: yes
-
-    - name: Enable and start the lockdown_fbi service
-      systemd:
-        name: lockdown_fbi.service
-        enabled: yes
-        state: started
-
-    - name: Install xbindkeys for key combination setup
-      apt:
-        name: xbindkeys
-        state: present
-
     - name: Create xbindkeys config to close fbi with key combination
       copy:
         dest: /home/pi/.xbindkeysrc
@@ -91,3 +60,51 @@
         owner: pi
         group: pi
         mode: '0644'
+
+    - name: Create systemd service for running fbi at startup
+      copy:
+        dest: /etc/systemd/system/lockdown_fbi.service
+        content: |
+          [Unit]
+          Description=Run FBI at startup to display lockdown image
+          After=network.target
+
+          [Service]
+          ExecStart=/home/pi/lockdown/run_fbi.sh
+          User=pi
+          Group=pi
+          Restart=always
+
+          [Install]
+          WantedBy=multi-user.target
+        mode: '0644'
+
+    - name: Create systemd service for running xbindkeys at startup
+      copy:
+        dest: /etc/systemd/system/xbindkeys.service
+        content: |
+          [Unit]
+          Description=Start xbindkeys to monitor key combinations
+          After=graphical.target
+
+          [Service]
+          ExecStart=/usr/bin/xbindkeys
+          User=pi
+          Group=pi
+          Restart=always
+
+          [Install]
+          WantedBy=default.target
+        mode: '0644'
+
+    - name: Reload systemd to apply the new service
+      systemd:
+        daemon_reload: yes
+
+    - name: Enable and start the lockdown_fbi service
+      systemd:
+        name:
+          - lockdown_fbi.service
+          - xbindkeys.service
+        enabled: yes
+        state: started
