@@ -49,18 +49,6 @@
         group: pi
         mode: '0644'
 
-    - name: Create autostart entry to launch xbindkeys
-      copy:
-        dest: /home/pi/.config/autostart/xbindkeys.desktop
-        content: |
-          [Desktop Entry]
-          Type=Application
-          Name=xbindkeys
-          Exec=/usr/bin/xbindkeys
-        owner: pi
-        group: pi
-        mode: '0644'
-
     - name: Create systemd service for running fbi at startup
       copy:
         dest: /etc/systemd/system/lockdown_fbi.service
