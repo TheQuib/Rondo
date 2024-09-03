@@ -1,6 +1,6 @@
 ---
 - name: Deploy Rondo
-  hosts: raspberry_pis
+  hosts: notes
   become: yes
   become_user: root
 
