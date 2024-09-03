@@ -1,0 +1,92 @@
+---
+- name: Setup Raspberry Pi Lockdown Image
+  hosts: '*'
+  become: yes
+
+  tasks:
+    - name: Install fbi
+      apt:
+        name: fbi
+        state: present
+        update_cache: yes
+
+    - name: Create directory lockdown directory
+      file:
+        path: /home/pi/lockdown
+        state: directory
+        owner: pi
+        group: pi
+        mode: '0755'
+
+    - name: Copy image to lockdown directory
+      copy:
+        src: lockdownImage.png
+        dest: /home/pi/lockdown/lockdownImage.png
+        owner: pi
+        group: pi
+        mode: '0644'
+
+    - name: Create script to run fbi
+      copy:
+        dest: /home/pi/lockdown/run_fbi.sh
+        content: |
+          #!/bin/bash
+          sudo fbi -T 1 -d /dev/fb0 -noverbose -a /home/pi/lockdown/lockdownImage.png
+        owner: pi
+        group: pi
+        mode: '0755'
+
+    - name: Create systemd service for running fbi at startup
+      copy:
+        dest: /etc/systemd/system/lockdown_fbi.service
+        content: |
+          [Unit]
+          Description=Run FBI at startup to display lockdown image
+          After=network.target
+
+          [Service]
+          ExecStart=/home/pi/lockdown/run_fbi.sh
+          User=pi
+          Group=pi
+          Restart=always
+
+          [Install]
+          WantedBy=multi-user.target
+        mode: '0644'
+
+    - name: Reload systemd to apply the new service
+      systemd:
+        daemon_reload: yes
+
+    - name: Enable and start the lockdown_fbi service
+      systemd:
+        name: lockdown_fbi.service
+        enabled: yes
+        state: started
+
+    - name: Install xbindkeys for key combination setup
+      apt:
+        name: xbindkeys
+        state: present
+
+    - name: Create xbindkeys config to close fbi with key combination
+      copy:
+        dest: /home/pi/.xbindkeysrc
+        content: |
+          "sudo pkill fbi"
+          control+shift+l
+        owner: pi
+        group: pi
+        mode: '0644'
+
+    - name: Create autostart entry to launch xbindkeys
+      copy:
+        dest: /home/pi/.config/autostart/xbindkeys.desktop
+        content: |
+          [Desktop Entry]
+          Type=Application
+          Name=xbindkeys
+          Exec=/usr/bin/xbindkeys
+        owner: pi
+        group: pi
+        mode: '0644'
