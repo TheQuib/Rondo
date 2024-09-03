@@ -67,7 +67,7 @@
     # Generate config.yaml using template
     - name: Generate config.yaml from template
       template:
-        src: ./rondo/config.yaml.j2
+        src: config.yaml.j2
         dest: /home/pi/rondo/config.yaml
         owner: pi
         group: pi
