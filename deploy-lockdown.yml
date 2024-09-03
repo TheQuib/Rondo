@@ -91,8 +91,12 @@
 
     - name: Enable and start the lockdown_fbi service
       systemd:
-        name:
-          - lockdown_fbi.service
-          - xbindkeys.service
+        name: lockdown_fbi.service
+        enabled: yes
+        state: started
+    
+    - name: Enable and start the xbindkeys service
+      systemd:
+        name: xbindkeys.service
         enabled: yes
         state: started
