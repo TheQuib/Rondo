@@ -9,3 +9,4 @@ services:
       - "/dev/mem:/dev/mem"
       - "/sys:/sys"
     privileged: true
+    restart: unless-stopped
