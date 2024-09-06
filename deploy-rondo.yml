@@ -75,7 +75,7 @@
 
     # Run and check the container
     - name: Pull and run the Docker container using Docker Compose
-      command: docker-compose up -d
+      command: docker compose up -d
       args:
         chdir: /home/pi/rondo/
 
