@@ -6,4 +6,6 @@ services:
       - /home/pi/rondo/config.yml:/app/config.yml
     devices:
       - "/dev/gpiomem:/dev/gpiomem"
+      - "/dev/mem:/dev/mem"
+      - "/sys:/sys"
     privileged: true
