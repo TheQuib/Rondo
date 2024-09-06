@@ -49,6 +49,12 @@
         name: docker
         state: started
 
+    - name: Add user Pi to docker group
+      user:
+        name: 'pi'
+        groups: docker
+        append: yes
+
     # Create project directory
     - name: Create directory for Rondo
       file:
