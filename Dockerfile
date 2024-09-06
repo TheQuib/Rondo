@@ -23,5 +23,4 @@ COPY src/ /app/
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
 # Default command to run the application
-CMD ["sh", "-c", "pigpiod && python main.py"]
-#CMD ["python", "main.py"]
+CMD ["python", "main.py"]
