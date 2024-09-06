@@ -3,7 +3,7 @@ services:
     image: ghcr.io/thequib/rondo:latest
     container_name: rondo
     volumes:
-      - ${PWD}/config.yml:/home/pi/rondo/config.yml
+      - /home/pi/rondo/config.yml:/app/config.yml
     devices:
       - "/dev/gpiomem:/dev/gpiomem"
     privileged: true
