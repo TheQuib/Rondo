@@ -70,8 +70,8 @@
         src: ./docker-compose.yml
         dest: /home/pi/rondo/docker-compose.yml
 
-    # Generate config.yaml using template
-    - name: Generate config.yaml from template
+    # Generate config.yml using template
+    - name: Generate config.yml from template
       template:
         src: config.yml.j2
         dest: /home/pi/rondo/config.yml
