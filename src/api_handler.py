@@ -3,7 +3,7 @@ import requests
 import yaml
 
 class APIHandler:
-    def __init__(self, config_file="config.yaml"):
+    def __init__(self, config_file="config.yml"):
         if not os.path.exists(config_file):
             raise FileNotFoundError(f"Configuration file {config_file} not found. Please provide a valid configuration file.")
         
