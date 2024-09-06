@@ -79,13 +79,19 @@
         group: pi
         mode: '0644'
 
-    # Run and check the container
-    - name: Pull and run the Docker container using Docker Compose
+    # Pull latest container image
+    - name: Pull latest container image
+      command: docker compose pull
+      args:
+        chdir: /home/pi/rondo/
+
+    # Run the container
+    - name: Run the container
       command: docker compose up -d
       args:
         chdir: /home/pi/rondo/
 
-    - name: Ensure Rondo container is running
+    - name: Ensure container is running
       docker_container:
         name: rondo
         state: started
