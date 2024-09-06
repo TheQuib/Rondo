@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     libffi-dev \
     gcc \
+    pigpio \
     && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory in the container
@@ -23,4 +24,5 @@ COPY src/ /app/
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
 # Default command to run the application
-CMD ["python", "main.py"]
+CMD ["sh", "-c", "pigpiod && python main.py"]
+#CMD ["python", "main.py"]
