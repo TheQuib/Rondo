@@ -81,11 +81,14 @@ jobs:
         id: extract_notes
         run: |
           START_LINE=$(grep -n "^## \[${{ env.VERSION }}\]" CHANGELOG.md | cut -d: -f1)
-          END_LINE=$(grep -n -m 1 -A 1 "^## " CHANGELOG.md | tail -n +2 | cut -d: -f1)
+          END_LINE=$(grep -n -A 1 "^## " CHANGELOG.md | grep -A 1 "^## \[${{ env.VERSION }}\]" | tail -1 | cut -d: -f1)
           if [ -z "$END_LINE" ]; then
             END_LINE=$(wc -l < CHANGELOG.md)
           fi
-          sed -n "${START_LINE},${END_LINE}p" CHANGELOG.md | sed '$d' > release_notes.txt
+          sed -n "${START_LINE},${END_LINE}p" CHANGELOG.md | sed '$d' > changelog.txt
+
+      - name: Display extracted changelog for debugging
+        run: cat changelog.txt
 
       - name: Create GitHub Release
         if: steps.tag_exists.outputs.found != 'true'
@@ -93,6 +96,6 @@ jobs:
         with:
           tag_name: v${{ env.VERSION }}
           name: Release v${{ env.VERSION }}
-          body_path: ./release_notes.txt
+          body_path: ./changelog.txt
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
