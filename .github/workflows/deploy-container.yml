@@ -11,6 +11,7 @@ on:
       - '.github/workflows/deploy-container.yml'
       - 'docker-compose.yml'
       - 'src/**'
+      - 'version.txt'
 
 jobs:
   build:
@@ -35,7 +36,25 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Extract version number
+        id: get_version
+        run: |
+          VERSION=$(grep -oP '(?<=^VERSION=).+' version.txt)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Check if tag already exists
+        id: tag_exists
+        run: |
+          if git rev-parse "v${{ env.VERSION }}" >/dev/null 2>&1; then
+            echo "::set-output name=found::true"
+            echo "Tag v${{ env.VERSION }} already exists."
+          else
+            echo "::set-output name=found::false"
+            echo "Tag v${{ env.VERSION }} does not exist."
+          fi
+
       - name: Build and push Docker image
+        if: steps.tag_exists.outputs.found != 'true'
         uses: docker/build-push-action@v4
         with:
           context: .
@@ -44,4 +63,22 @@ jobs:
           platforms: linux/arm/v7,linux/arm64
           tags: |
             ghcr.io/thequib/rondo:latest
-            ghcr.io/thequib/rondo:${{ github.sha }}
+            ghcr.io/thequib/rondo:${{ env.VERSION }}
+
+      - name: Create Git tag
+        if: steps.tag_exists.outputs.found != 'true'
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git tag -a v${{ env.VERSION }} -m "Release version ${{ env.VERSION }}"
+          git push origin v${{ env.VERSION }}
+
+      - name: Create GitHub Release
+        if: steps.tag_exists.outputs.found != 'true'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ env.VERSION }}
+          name: Release v${{ env.VERSION }}
+          body: "Automated release of version ${{ env.VERSION }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
