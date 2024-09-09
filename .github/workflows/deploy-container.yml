@@ -39,10 +39,11 @@ jobs:
       - name: Extract version number
         id: get_version
         run: |
-          VERSION=$(cat version.txt | grep -oP '(?<=^VERSION=).*')
+          VERSION=$(cut -d '=' -f2 version.txt | tr -d '[:space:]')
           echo "VERSION=$VERSION"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
         shell: bash
+        
         
 
       - name: Check if tag already exists
