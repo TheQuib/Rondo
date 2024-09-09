@@ -80,12 +80,20 @@ jobs:
       - name: Extract release notes from CHANGELOG.md
         id: extract_notes
         run: |
+          # Find the starting line number of the current version section
           START_LINE=$(grep -n "^## \[${{ env.VERSION }}\]" CHANGELOG.md | cut -d: -f1)
+          
+          # Find the starting line number of the next version section
           END_LINE=$(grep -n -A 1 "^## " CHANGELOG.md | grep -A 1 "^## \[${{ env.VERSION }}\]" | tail -1 | cut -d: -f1)
+          
+          # If there's no subsequent version, use the end of the file
           if [ -z "$END_LINE" ]; then
             END_LINE=$(wc -l < CHANGELOG.md)
           fi
+          
+          # Extract the lines from START_LINE to END_LINE, and remove the last line if it's not the end of the file
           sed -n "${START_LINE},${END_LINE}p" CHANGELOG.md | sed '$d' > changelog.txt
+      
 
       - name: Display extracted changelog for debugging
         run: cat changelog.txt
