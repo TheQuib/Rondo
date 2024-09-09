@@ -12,6 +12,7 @@ on:
       - 'docker-compose.yml'
       - 'src/**'
       - 'version.txt'
+      - 'CHANGELOG.md'
 
 jobs:
   build:
@@ -43,8 +44,6 @@ jobs:
           echo "VERSION=$VERSION"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
         shell: bash
-        
-        
 
       - name: Check if tag already exists
         id: tag_exists
@@ -68,6 +67,7 @@ jobs:
           tags: |
             ghcr.io/thequib/rondo:latest
             ghcr.io/thequib/rondo:${{ env.VERSION }}
+            ghcr.io/thequib/rondo:${{ github.sha }}
 
       - name: Create Git tag
         if: steps.tag_exists.outputs.found != 'true'
@@ -77,12 +77,22 @@ jobs:
           git tag -a v${{ env.VERSION }} -m "Release version ${{ env.VERSION }}"
           git push origin v${{ env.VERSION }}
 
+      - name: Extract release notes from CHANGELOG.md
+        id: extract_notes
+        run: |
+          START_LINE=$(grep -n "^## \[${{ env.VERSION }}\]" CHANGELOG.md | cut -d: -f1)
+          END_LINE=$(grep -n -m 1 -A 1 "^## " CHANGELOG.md | tail -n +2 | cut -d: -f1)
+          if [ -z "$END_LINE" ]; then
+            END_LINE=$(wc -l < CHANGELOG.md)
+          fi
+          sed -n "${START_LINE},${END_LINE}p" CHANGELOG.md | sed '$d' > release_notes.txt
+
       - name: Create GitHub Release
         if: steps.tag_exists.outputs.found != 'true'
         uses: softprops/action-gh-release@v1
         with:
           tag_name: v${{ env.VERSION }}
           name: Release v${{ env.VERSION }}
-          body: "Automated release of version ${{ env.VERSION }}"
+          body_path: ./release_notes.txt
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
