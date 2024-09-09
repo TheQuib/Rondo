@@ -87,7 +87,7 @@
 
     # Run the container
     - name: Run the container
-      command: docker compose up -d
+      command: docker compose up -d --force-recreate
       args:
         chdir: /home/pi/rondo/
 
