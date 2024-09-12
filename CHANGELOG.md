@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.1] - 2024-09-12
+### Remove
+ - Upgrade in first step of deploy playbook
+
 ## [1.1.0] - 2024-09-09
 ### Fixed
  - Updating config.yml not updating environment variables. Added `--force-restart` to container start check.
