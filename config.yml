@@ -7,3 +7,7 @@ headers:
 payload:
   door_id: "your-door-id"
   user_id: "your-identifier"
+
+#led_enabled: true
+#led_pin: 23     
+#button_pin: 17  

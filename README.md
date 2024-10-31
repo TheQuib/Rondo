@@ -11,10 +11,20 @@ Out of the box, the packaged Ansible Playbook and Docker Container will make an 
 # Setup
 ## Variables
 At base level, you will need:
- - `api_url`: The API endpoint URL Python will make calls to.
- - `x-api-key`: The API key Python will use to authenticate to the API.
- - `door_id`: The ID of the door to unlock.
- - `user_id`: The ID of the user that will unlock the door.
+
+**Required:**
+ - `api_url`, *string*: The API endpoint URL Python will make calls to.
+ - `x-api-key`, *string*: The API key Python will use to authenticate to the API.
+ - `door_id`, *string*: The ID of the door to unlock.
+ - `user_id`, *string*: The ID of the user that will unlock the door.
+
+**Optional:**
+ - `led_enabled`, *bool*: If you want to enable status LED functionality
+   - *Default*: `false`
+ - `led_pin`, *int*: GPIO pin for LED connection
+   - *Default*: `23`
+ - `button_pin`, *int*: GPIO pin for button connection
+   - *Default*: `17`
 
 ## Modifying variables
 The variables in the configuration can be modified to your use case. Add or remove them, and the script will update the headers and body accordingly.
@@ -65,3 +75,10 @@ In Semaphore:
  - Give it a friendly name.
  - For each variable you want to configure for all hosts, make sure you're configuring `Extra Variables`.
  - Use `Secrets` if you want to use Semaphore's built-in secret manager.
+
+## LED functionality
+If the `led_enabled` variable is set to `true`, a status LED is triggered on GPIO pin 23 (set by the `led_pin` variable if you wish to change it).
+
+Current statuses:
+ - *Solid*: `main.py` is running, awaiting a button press.
+ - *Blinking*: Button has been pressed and `button_handler.py` is currently running API actions.

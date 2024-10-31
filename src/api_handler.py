@@ -6,7 +6,7 @@ class APIHandler:
     def __init__(self, config_file="config.yml"):
         if not os.path.exists(config_file):
             raise FileNotFoundError(f"Configuration file {config_file} not found. Please provide a valid configuration file.")
-        
+
         self.config = self.load_config(config_file)
         self.validate_config()
 
@@ -19,7 +19,7 @@ class APIHandler:
         for key in required_keys:
             if key not in self.config:
                 raise ValueError(f"Missing required config key: {key}")
-        
+
         # Validate headers and payload are dictionaries
         if not isinstance(self.config['headers'], dict):
             raise ValueError("Headers must be a dictionary")
