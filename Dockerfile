@@ -19,8 +19,14 @@ WORKDIR /app
 # Copy the entire src directory into the container
 COPY src/ /app/
 
+# Copy the entrypoint script into the container
+COPY entrypoint.sh /entrypoint.sh
+
+# Make the entrypoint script executable
+RUN chmod +x /entrypoint.sh
+
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
-# Default command to run the application
-CMD ["python", "main.py"]
+# Set the entrypoint to the new script
+ENTRYPOINT ["/entrypoint.sh"]

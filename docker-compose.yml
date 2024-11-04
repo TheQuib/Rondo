@@ -3,7 +3,7 @@ services:
     image: ghcr.io/thequib/rondo:latest
     container_name: rondo
     volumes:
-      - /home/pi/rondo/config.yml:/app/config.yml
+      - ./config.yml:/app/config.yml
     devices:
       - "/dev/gpiomem:/dev/gpiomem"
       - "/dev/mem:/dev/mem"

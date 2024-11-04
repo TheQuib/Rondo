@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.1.0] - 2024-11-4
+### Fixed
+ - GPIO not cleaning up after container shutdown
+
 ## [2.0.1] - 2024-11-4
 ### Fixed
  - `config.yml.j2` now includes new variables with default values
