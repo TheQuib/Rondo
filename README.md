@@ -82,3 +82,8 @@ If the `led_enabled` variable is set to `true`, a status LED is triggered on GPI
 Current statuses:
  - *Solid*: `main.py` is running, awaiting a button press.
  - *Blinking*: Button has been pressed and `button_handler.py` is currently running API actions.
+
+# Default pinout connections
+The following is a diagram showing what pins to connect to if using the default pin configuration:
+
+![RPi3 GPIO Pinout](/rpi3-gpio-pinout.png)
