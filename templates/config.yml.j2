@@ -7,3 +7,7 @@ headers:
 payload:
   door_id: "{{ DOOR_ID }}"
   user_id: "{{ USER_ID }}"
+
+led_enabled: {{ led_enabled | default('false') }}
+led_pin: {{ led_pin | default('23') }}
+button_pin: {{ button_pin | default('17') }}
