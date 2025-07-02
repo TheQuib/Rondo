@@ -39,6 +39,7 @@ class APIHandler:
                 url=self.config['token_url'],
                 headers=self.config['token_headers']
             )
+            print(f"API Token requested: {tokenRequest.json()}")
             token = tokenRequest.json().get("token")
             # Make call
             response = requests.post(

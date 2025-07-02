@@ -1,12 +1,14 @@
-api_url: "https://api.example.com"
-headers:
+token_url: "https://api.example.com/token"
+token_headers:
   accept: "application/json"
-  content-type: "application/json"
-  x-api-key: "your-api-key"
+  x-api-key: "{{ api_key }}:"
+
+
+api_url: "https://api.example.com"
 
 payload:
-  door_id: "your-door-id"
-  user_id: "your-identifier"
+  payload-1: "your-payload-data"
+  payload-2: "your-payload-data"
 
 #led_enabled: true
 #led_pin: 23     
