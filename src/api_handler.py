@@ -9,7 +9,7 @@ class APIHandler:
             raise FileNotFoundError(f"Configuration file {config_file} not found. Please provide a valid configuration file.")
 
         self.config = self.load_config(config_file)
-        self.validate_config()
+        #self.validate_config()
 
     def load_config(self, config_file):
         with open(config_file, 'r') as file:
