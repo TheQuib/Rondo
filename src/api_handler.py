@@ -1,6 +1,7 @@
 import os
 import requests
 import yaml
+import json
 
 class APIHandler:
     def __init__(self, config_file="config.yml"):
@@ -40,9 +41,16 @@ class APIHandler:
 
     def make_api_call(self):
         try:
+            # Retrieve token
+            tokenRequest = requests.post(
+                url=self.config['token_url'],
+                headers=self.config['token_headers']
+            )
+            token = tokenRequest.json().get("token")
+            # Make call
             response = requests.post(
                 url=self.config['api_url'],
-                headers=self.config['headers'],
+                headers={"x-verkada-auth": token, "accept": "application/json"},
                 json=self.config['payload']
             )
             response.raise_for_status()

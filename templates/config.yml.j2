@@ -1,8 +1,9 @@
-api_url: "{{ api_url }}"
-headers:
+token_url: "{{ token_url }}"
+token_headers:
   accept: "application/json"
-  content-type: "application/json"
-  x-api-key: "{{ api_key }}"
+  x-api-key: "{{ api_key }}:"
+
+api_url: "{{ api_url }}"
 
 payload:
   door_id: "{{ DOOR_ID }}"
