@@ -43,7 +43,7 @@ class APIHandler:
             # Make call
             response = requests.post(
                 url=self.config['api_url'],
-                headers={"x-verkada-auth": token, "accept": "application/json"},
+                headers={"accept": "application/json", "content-type": "application/json", "x-verkada-auth": token},
                 json=self.config['payload']
             )
             response.raise_for_status()
