@@ -7,6 +7,7 @@ on:
     tags:
       - '*'
     paths:
+      - '.github/workflows/deploy-site.yml'
       - 'docs/**'
 
 permissions:
