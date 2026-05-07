@@ -49,6 +49,10 @@ jobs:
         id: pages
         uses: actions/configure-pages@v5
 
+      - name: Download Hugo Modules
+        working-directory: docs
+        run: hugo mod download
+
       - name: Build site
         working-directory: docs
         run: hugo --minify --baseURL "https://thequib.github.io/Rondo/"
