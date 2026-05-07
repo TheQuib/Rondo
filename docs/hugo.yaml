@@ -1,0 +1,64 @@
+baseURL: https://TheQuib.github.io/rondo
+languageCode: en-us
+title: Rondo Docs
+theme: hextra
+
+menu:
+  main:
+    - name: Docs
+      pageRef: /docs
+      weight: 1
+
+    - name: About
+      pageRef: /about
+      weight: 2
+
+    - name: Search
+      params:
+        type: search
+      weight: 10
+    - name: GitHub
+      url: "https://github.com/TheQuib/Rondo"
+      params:
+        icon: github
+      weight: 11
+
+  sidebar:
+    - identifier: more
+      name: More
+      params:
+        type: separator
+      weight: 1
+    - identifier: rondoRepo
+      name: "Rondo Repository ↗"
+      url: "https://github.com/TheQuib/Rondo/"
+      weight: 2
+    - identifier: quinnHenry
+      name: "Quinn Henry ↗"
+      url: "https://github.com/TheQuib"
+
+params:
+  navbar:
+    displayTitle: true
+  page:
+    displayPagination: true
+  blog:
+    article:
+      displayPagination: false
+  
+  footer:
+    enable: true
+    displayCopyright: true
+    displayPoweredBy: false
+    width: normal
+
+  editURL:
+    enable: true
+    base: "https://github.com/TheQuib/Rondo/edit/main/docs/content"
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  highlight:
+    noClasses: false
