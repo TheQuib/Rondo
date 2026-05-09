@@ -37,21 +37,26 @@ menu:
       name: "Quinn Henry ↗"
       url: "https://github.com/TheQuib"
 
+enableGitInfo: true
+
 params:
+  displayUpdatedDate: true
   navbar:
     displayTitle: true
     displayLogo: true
     logo:
       path: images/rondo-logo-light.svg
       dark: images/rondo-logo-dark.svg
-      link: /
+      link: /rondo
       width: 30
   page:
     displayPagination: true
+    contextMenu:
+      enable: true
   blog:
     article:
       displayPagination: false
-  
+
   footer:
     enable: true
     displayCopyright: true
@@ -61,6 +66,10 @@ params:
   editURL:
     enable: true
     base: "https://github.com/TheQuib/Rondo/edit/main/docs/content"
+
+outputs:
+  page: [html, markdown]
+  section: [html, rss, markdown]
 
 markup:
   goldmark:
