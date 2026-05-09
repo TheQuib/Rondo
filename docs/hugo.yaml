@@ -40,6 +40,12 @@ menu:
 params:
   navbar:
     displayTitle: true
+    displayLogo: true
+    logo:
+      path: images/rondo-logo-light.svg
+      dark: images/rondo-logo-dark.svg
+      link: /
+      width: 30
   page:
     displayPagination: true
   blog:
