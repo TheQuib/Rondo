@@ -27,8 +27,8 @@ For managing deployments across many devices, Rondo integrates well with Ansible
  - An HTTP API endpoint to call
 
 ## Where to go next
-If you're setting up for the first time, head to [Getting Started](/docs/getting-started) to walk through hardware wiring and deployment.
+If you're setting up for the first time, head to [Getting Started](./getting-started) to walk through hardware wiring and deployment.
 
-If you're already up and running and want to customize your headers, payload or GPIO pins, jump to Configuration.
+If you're already up and running and want to customize your headers, payload or GPIO pins, jump to [Configuration](./configuration).
 
-If you're managing multiple Pis through Semaphore, the Semaphore section covers per-host and global variable setup.
+If you're managing multiple Pis through Semaphore, the [Semaphore](./semaphore) section covers per-host and global variable setup.
